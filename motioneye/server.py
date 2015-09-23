@@ -175,6 +175,7 @@ handler_mapping = [
     (r'^/power/(?P<op>shutdown|reboot)/?$', handlers.PowerHandler),
     (r'^/version/?$', handlers.VersionHandler),
     (r'^/login/?$', handlers.LoginHandler),
+    (r'^/memusage/?$', handlers.MemUsageHandler),
     (r'^.*$', handlers.NotFoundHandler),
 ]
 

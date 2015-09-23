@@ -1462,3 +1462,27 @@ class LoginHandler(BaseHandler):
     def post(self):
         self.set_header('Content-Type', 'text/html')
         self.finish()
+
+
+class MemUsageHandler(BaseHandler):
+    def get(self):
+        from guppy import hpy
+        
+        h = hpy()
+        hp = h.heap()
+        
+        by = self.get_argument('by', None)
+        if by:
+            hp = getattr(hp, 'by' + by)
+
+        lines = []
+        while True:
+            r = str(hp)
+            if r.count('\n') < 2:
+                break
+            lines += r.split('\n')[:-1]
+            hp = hp.more
+        
+        response = '\n'.join(lines)
+        self.set_header('Content-Type', 'text/plain')
+        self.finish(response)
